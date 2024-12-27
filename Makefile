@@ -3,6 +3,8 @@ ASM = nasm
 SRC_DIR = src
 BUILD_DIR = build
 
+.PHONY: clean qemu
+
 $(BUILD_DIR)/main.img: $(SRC_DIR)/boot/stage1/stage1.asm
 	mkdir -p $(BUILD_DIR)/boot/stage1
 	dd if=/dev/zero of=$(BUILD_DIR)/main.img bs=512 count=65536
