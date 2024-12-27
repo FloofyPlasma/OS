@@ -7,7 +7,13 @@ start:
 ;
 ;   Prints a string to the screen using BIOS interrupts
 ;
+;   USES:
+;       SI: Output string
+;
 print_string:
+    ; Save the stack
+    push ax
+
     lodsb ; Load byte from SI into AL
     or al, al ; Check if its a null character
     jz .print_done
@@ -18,10 +24,7 @@ print_string:
     jmp print_string ; Since its not a null character, go back to start
 
 .print_done:
-
-    mov ah, 0x3 ; Reset cursor
-    mov al, 0
-    int 0x10
+    pop ax
 
     ret
 
