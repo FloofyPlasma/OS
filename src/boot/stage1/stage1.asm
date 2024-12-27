@@ -10,17 +10,17 @@ nop
 ;
 BPB_OEM: db 'mkfs.fat' ; TODO: Update
 BPB_BytesPerSector dw 512
-BPB_SectorsPerCluster db 1
-BPB_ReservedSectors dw 1
+BPB_SectorsPerCluster db 4
+BPB_ReservedSectors dw 4
 BPB_FATCount db 2
-BPB_RootDirecetoryEntries dw 512 ; TODO: Check that this is correct for fat 16
-BPB_TotalSectors dw 0 ; We have 65536 sectors
+BPB_RootDirecetoryEntries dw 512
+BPB_TotalSectors dw 65535
 BPB_MediaDescriptor db 0F8h ; Fixed disk
-BPB_SectorCount db 9 ; TODO: Help I have no idea what this does yet
-BPB_SectorPerTrack db 18 ; TODO: See above
-BPB_Heads db 2 ; TODO: See above
-BPB_HiddenSectors dd 0
-BPB_LargeSectorCount dd 65536
+BPB_SectorPerTrack dw 64
+BPB_SectorCount dw 65535
+BPB_Heads dw 32
+BPB_HiddenSectors dd 4
+BPB_LargeSectorCount dd 0
 
 ;
 ; EBR (Extended Boot Record)
@@ -28,10 +28,11 @@ BPB_LargeSectorCount dd 65536
 ;
 EBR_DriveNumber db 080h ; Hard disk
 db 0 ; Reserved for Windows NT (lmao thanks microsoft)
-EBR_Signature db 028h ; Either this or 0x29.
+EBR_Signature db 029h ; Either this or 0x29.
 EBR_SerialNumber db 87h, 65h, 43h, 21h
-EBR_VolumeLabel db 'OS         ' ; TODO: Better name...
+EBR_VolumeLabel db 'OS      ' ; TODO: Better name...
 EBR_SystemIdentifier db 'FAT16   ' ; Do not trust this (lol)
+
 
 ; Boot code
 
@@ -46,8 +47,11 @@ start:
 ;
 print_string:
     ; Save the stack
+    push si
     push ax
+    jmp .print_loop
 
+.print_loop:
     lodsb ; Load byte from SI into AL
     or al, al ; Check if its a null character
     jz .print_done
@@ -55,9 +59,10 @@ print_string:
     mov ah, 0xE ; Display char code
     int 0x10
 
-    jmp print_string ; Since its not a null character, go back to start
+    jmp .print_loop ; Since its not a null character, go back to start
 
 .print_done:
+    pop si
     pop ax
 
     ret

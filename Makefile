@@ -7,7 +7,7 @@ BUILD_DIR = build
 
 $(BUILD_DIR)/main.img: $(SRC_DIR)/boot/stage1/stage1.asm
 	mkdir -p $(BUILD_DIR)/boot/stage1
-	dd if=/dev/zero of=$(BUILD_DIR)/main.img bs=512 count=65536
+	dd if=/dev/zero of=$(BUILD_DIR)/main.img bs=512 count=65535
 	mkfs.fat -F 16 $(BUILD_DIR)/main.img
 	$(ASM) $(SRC_DIR)/boot/stage1/stage1.asm -f bin -o $(BUILD_DIR)/boot/stage1/stage1.bin
 	dd if=$(BUILD_DIR)/boot/stage1/stage1.bin of=$(BUILD_DIR)/main.img conv=notrunc
