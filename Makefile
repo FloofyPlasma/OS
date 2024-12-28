@@ -2,8 +2,9 @@ ASM = nasm
 
 SRC_DIR = src
 BUILD_DIR = build
+UTIL_DIR = utils
 
-.PHONY: clean qemu
+.PHONY: clean qemu utils
 
 $(BUILD_DIR)/main.img: $(SRC_DIR)/boot/stage1/stage1.asm
 	mkdir -p $(BUILD_DIR)/boot/stage1
@@ -14,6 +15,10 @@ $(BUILD_DIR)/main.img: $(SRC_DIR)/boot/stage1/stage1.asm
 
 qemu: $(BUILD_DIR)/main.img
 	qemu-system-x86_64 -drive file=$(BUILD_DIR)/main.img,format=raw -monitor telnet:127.0.0.1:1234,server,nowait
+
+utils:
+	mkdir -p $(BUILD_DIR)/utils
+	gcc -g $(UTIL_DIR)/fat.c -o $(BUILD_DIR)/utils/fat
 
 clean:
 	rm -r $(BUILD_DIR)
