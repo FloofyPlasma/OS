@@ -2,8 +2,8 @@ bits 16
 
 section _TEXT class=CODE
 
-global _x86_Print_String
-_x86_Print_String:
+global x86_Print_String
+x86_Print_String:
     ; make new call frame
     enter 0, 0
 

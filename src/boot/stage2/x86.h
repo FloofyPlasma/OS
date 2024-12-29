@@ -3,6 +3,6 @@
 
 #include "stdint.h"
 
-void _cdecl x86_Print_String(char c, u8 page);
+void __attribute__((cdecl)) x86_Print_String(char c, u8 page);
 
 #endif // X86_H
