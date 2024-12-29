@@ -1,16 +1,34 @@
-org 0x0
 bits 16
 
+section _ENTRY class=CODE
+
+extern _stage2_cmain_
 
 %define ENDL 0x0D, 0x0A
 
-
-start:
-    mov si, msg_hello
+global entry
+entry:
+    mov si, message_hello
     call print_string
 
-    mov si, msg_welcome
+    mov si, message_transitioning
     call print_string
+
+    ; Setup stack
+    cli
+    mov ax, ds
+    mov ss, ax
+    mov sp, 0
+    mov bp, sp
+    sti
+
+    ; We should have the boot drive in DL
+    xor dh, dh
+    push dx
+    call _stage2_cmain_
+
+    cli
+    hlt
 
 .halt:
     cli
@@ -51,6 +69,6 @@ print_string:
 
     ret
 
-msg_hello: db 'Loading stage 2', ENDL, 0
-msg_welcome: db 'HELLO WORLD FROM STAGE 2!! (SEPARATE BIN FILE)', ENDL, 0
+message_hello: db 'Loading stage 2', ENDL, 0
+message_transitioning: db 'Transitioning to C...', ENDL, ENDL, 0
 message_ok: db 'OK', ENDL, 0
