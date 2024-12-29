@@ -54,7 +54,6 @@ main:
     retf
 
 .enforced:
-
     ; bios should set DL to the disk drive number we want
     mov [EBR_DriveNumber], dl
 
@@ -108,8 +107,6 @@ main:
     mov di, buffer_data
 
 .search_stage_2:
-
-
     mov si, file_stage_2
     mov cx, 11 ; compare 11 characters
     push di
