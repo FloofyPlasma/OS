@@ -8,12 +8,6 @@ extern _stage2_cmain_
 
 global entry
 entry:
-    mov si, message_hello
-    call print_string
-
-    mov si, message_transitioning
-    call print_string
-
     ; Setup stack
     cli
     mov ax, ds
@@ -21,6 +15,13 @@ entry:
     mov sp, 0
     mov bp, sp
     sti
+
+    mov si, message_hello
+    call print_string
+
+    mov si, message_transitioning
+    call print_string
+
 
     ; We should have the boot drive in DL
     xor dh, dh

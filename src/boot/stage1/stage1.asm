@@ -342,8 +342,8 @@ file_stage_2: db 'STAGE2  BIN'
 stage2_cluster dw 0
 
 ; Magic numbers
-STAGE_2_LOAD_SEGMENT equ 0x2000
-STAGE_2_LOAD_OFFSET equ 0
+STAGE_2_LOAD_SEGMENT equ 0x0
+STAGE_2_LOAD_OFFSET equ 0x500
 
 times 510 - ($ - $$) db 0
 
