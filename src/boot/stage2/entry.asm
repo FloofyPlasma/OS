@@ -8,11 +8,13 @@ extern _stage2_cmain_
 
 global entry
 entry:
-    ; Setup stack
     cli
+    mov [boot_drive], dl
+
+    ; Setup stack
     mov ax, ds
     mov ss, ax
-    mov sp, 0
+    mov sp, 0xFFF0
     mov bp, sp
     sti
 
@@ -73,3 +75,6 @@ print_string:
 message_hello: db 'Loading stage 2', ENDL, 0
 message_transitioning: db 'Transitioning to C...', ENDL, ENDL, 0
 message_ok: db 'OK', ENDL, 0
+
+
+boot_drive: db 0
