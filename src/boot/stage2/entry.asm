@@ -116,6 +116,7 @@ wait_out_A20:
     jz wait_out_A20
     ret
 
+global load_GDT
 load_GDT:
     [bits 16]
     lgdt [GDT_descriptor]
